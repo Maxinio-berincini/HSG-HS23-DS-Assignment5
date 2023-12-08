@@ -13,13 +13,19 @@ global _g_kvstorage
 
 def is_str(value):
     b = True
-    #TODO: update b so that it is a boolean that indicates whether value is a string.
+    if not isinstance(value, str):
+        b = False
     return b
 
 
 def is_list_of_string(value):
     b = True
-    # TODO: update b so that it is a boolean that indicates whether value is a list of strings.
+    # Check if value is a list
+    if not isinstance(value, list):
+        b = False
+    # Check if all items in the list are strings
+    if not all(isinstance(item, str) for item in value):
+        b = False
     return b
 
 
