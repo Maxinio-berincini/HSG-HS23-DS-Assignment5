@@ -3,11 +3,13 @@ Assignment 5
 
 # Team Members
 
-- 
+- Leon Luca Klaus Muscat
+- Felix Kappeler
+- Max Beringer
 
 # GitHub link to your (forked) repository
 
-...
+>https://github.com/Maxinio-berincini/HSG-HS23-DS-Assignment5/
 
 # Task 1
 
@@ -16,15 +18,41 @@ Note: Some questions require you to take screenshots. In that case, please join 
 1. What happens when Raft starts? Why?
 
 Ans: 
+> A node can be in one of three states: leader, follower, or candidate.
+> 
+> At the start of the Raft, every node starts as a follower. The follower waits to hear from the leader, as the leader sends periodical heartbeats.
+> If the follower does not hear from the leader for a random amount of time (election timeout), it becomes a candidate. 
+> A candidate initiates a leader election, by requesting votes from the other nodes.
+> If the candidate receives votes from a majority of the nodes, then it becomes leader.
+> 
+> A leader is crucial to achieve consensus with multiple nodes, to store data in a distributed system.
+> 
+> >Source: https://thesecretlivesofdata.com/raft/
 
 2. Perform one request on the leader, wait until the leader is committed by all servers. Pause the simulation.
 Then perform a new request on the leader. Take a screenshot, stop the leader and then resume the simulation.
 Once, there is a new leader, perform a new request and then resume the previous leader. Once, this new request is committed by all servers, pause the simulation and take a screenshot. Explain what happened?
 
 Ans: 
+> As soon as the request was made, the request was appended to the leader's log.
+> As the leader was paused, the request was never sent to the followers.
+> A new leader was elected, and the new request was appended to the new leader's log.
+> The new leader send the request to the followers, and the request was appended to the followers' logs and committed.
+> When the old leader was resumed, it received a heartbeat from the new leader, and as the new leader had a higher term, the old leader stepped down and became a follower.
+> Because the old leader had a lower term, the last uncommitted entry was rolled back, and the old leader's log was updated to match the new leader's log.
+>> Source: https://thesecretlivesofdata.com/raft/#replication
+
 3. Stop the current leader and two other servers. After a few increase in the Raft term, pause the simulation and take a screenshot. Then resume all servers and restart the simulation. After the leader election, pause the simulation and take a screenshot. Explain what happened.
 
 Ans: 
+> As soon as the leader was stopped, a follower became a candidate and started an election.
+> As there were a total number of 5 nodes, the candidate needed 3 votes to become leader.
+> The candidate only received 2 votes (his own and the one from the remaining node), the election failed and a new election was started.
+> This raised the election term. 
+> Because no leader was elected, the cycle repeated itself, until the other three nodes were started again.
+> The current candidate periodically sent out vote request to all the nodes as long as it gets a vote, until it receives a heartbeat from a leader with a higher term, or until its time runs out.
+> Because the old leader received a vote request from a candidate with a higher term, it stepped down and became a follower.
+> The candidate became the new leader, and the term of the previously stopped nodes was updated to match the new leader's term.
 
 # Task 2
 
