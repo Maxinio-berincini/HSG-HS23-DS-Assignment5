@@ -108,12 +108,22 @@ Ans:
 1. What is a consensus algorithm? What are they used for in the context of replicated state machines? 
 
 Ans: 
+> A consensus algorithm is a process to achieve an agreement on a subject by multiple participants.
+> It is used to achieve consensus in a distributed system, where multiple nodes need to agree on a value. 
+> They are crucial for maintaining reliability and consistency in a distributed system.
 
-2. What is a consensus algorithm? What are they used for in the context of replicated state machines? 
+2. What are the main features of the Raft algorithm? How does Raft enable fault tolerance? 
 
 Ans: 
+> Raft is a consensus algorithm. It uses a leader and follower model, where the leader is responsible for replicating the log to the followers.
+> It uses a heartbeat mechanism to ensure that the followers are still alive and toggle a re-election if the leader dies.
+> Raft enables fault tolerance by replicating the log to multiple nodes, so that if one node dies, the log can still be replicated to other nodes.
 
 
 3. What are Byzantine failures? Can Raft handle them?
 
 Ans: 
+> Byzantine fault comes from the Byzantine Generals' Problem, where a group of generals need to agree on a common plan of action, but some generals are traitors and try to sabotage the plan.
+> In a distributed system, a Byzantine failure is when a node sends conflicting information to other nodes.
+> Raft cannot handle Byzantine failures, as it assumes that the nodes are not malicious and will not send conflicting information.
+> It can only handle crash failures, where a node dies and stops sending information.
