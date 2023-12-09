@@ -81,7 +81,7 @@ Ans:
 >
 >Leader: Server 127.0.0.1:6000 is identified as the leader by all servers.
 >
->Typically there cannot be multiple leaders in a typical Raft consensus-based distributed system. In this scenario, all servers agree that >127.0.0.1:6000 is the leader, which aligns with the Raft consensus algorithm's design where a single leader is elected to maintain >consistency and coordination among the nodes. However, in scenarios involving network partitions or network failures, the system might >encounter situations where a node or set of nodes are isolated from each other, leading to a potential split vote.
+>Typically there cannot be multiple leaders in a typical Raft consensus-based distributed system. In this scenario, all servers agree that >127.0.0.1:6000 is the leader, which aligns with the Raft consensus algorithm's design where a single leader is elected to maintain consistency and coordination among the nodes. However, in scenarios involving network partitions or network failures, the system might encounter situations where a node or set of nodes are isolated from each other, leading to a potential split vote.
 
 2. Perform a Put request for the key ``a" on the leader. What is the new status? What changes occurred and why (if any)?
 
@@ -92,7 +92,7 @@ Ans:
 >
 >And the uptime increased by around 20.
 >
->The Raft consensus algorithm ensures that put is replicated and committed across the nodes. The increase in last_applied and commit_idx >indicates successful replication and commit of this change.
+>The Raft consensus algorithm ensures that put is replicated and committed across the nodes. The increase in last_applied and commit_idx indicates successful replication and commit of this change.
 
 3. Perform an Append request for the key ``a" on the leader. What is the new status? What changes occurred and why (if any)?
 
@@ -103,14 +103,14 @@ Ans:
 >
 >And the uptime increased by around 15.
 >
->The Raft consensus algorithm ensures that Append requests are replicated and committed across the nodes in the cluster to maintain >consistency. The increase in last_applied and commit_idx indicates the successful replication and commitment of this change across the >nodes, ensuring consistency within the cluster.
+>The Raft consensus algorithm ensures that Append requests are replicated and committed across the nodes in the cluster to maintain consistency. The increase in last_applied and commit_idx indicates the successful replication and commitment of this change across the nodes, ensuring consistency within the cluster.
 
 4. Perform a Get request for the key ``a" on the leader. What is the new status? What change (if any) happened and why?
 
 Ans:
 >Nothing has changed, except for the uptime slightly increasing by 15.
 >
->The GET request simply retrieves the current value associated with the key a without making any modifications to the data store or the >Raft log, thus keeping the status variables unchanged.
+>The GET request simply retrieves the current value associated with the key a without making any modifications to the data store or the Raft log, thus keeping the status variables unchanged.
 
 
 # Task 3
