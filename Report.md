@@ -59,19 +59,61 @@ Ans:
 1. Indicate the replies that you get from the "/admin/status" endpoint of the HTTP service for each servers. Which server is the leader? Can there be multiple leaders?
 
 Ans: 
+From the responses of the "/admin/status" endpoint for each server, we can observe the following information:
+
+Server 127.0.0.1:6000 (server 0)
+Leader: It identifies itself as the leader (leader = TCPNode('127.0.0.1:6000'))
+Partner Nodes: Lists other nodes it's partnered with (partner_nodes_count = 2)
+Raft Term: Current term is 1 (raft_term = 1)
+
+Server 127.0.0.1:6001 (server 1)
+State: Follower (state = 0)
+Leader: Indicates that server 127.0.0.1:6000 is the leader (leader = TCPNode('127.0.0.1:6000'))
+Partner Nodes: Lists other nodes it's partnered with (partner_nodes_count = 2)
+Raft Term: Current term is 1 (raft_term = 1)
+
+
+Server 127.0.0.1:6002 (server 2)
+State: Follower (state = 0)
+Leader: Indicates that server 127.0.0.1:6000 is the leader (leader = TCPNode('127.0.0.1:6000'))
+Partner Nodes: Lists other nodes it's partnered with (partner_nodes_count = 2)
+Raft Term: Current term is 1 (raft_term = 1)
+
+Leader: Server 127.0.0.1:6000 is identified as the leader by all servers.
+
+Typically there cannot be multiple leaders in a typical Raft consensus-based distributed system. In this scenario, all servers agree that 127.0.0.1:6000 is the leader, which aligns with the Raft consensus algorithm's design where a single leader is elected to maintain consistency and coordination among the nodes. However, in scenarios involving network partitions or network failures, the system might encounter situations where a node or set of nodes are isolated from each other, leading to a potential split vote.
 
 2. Perform a Put request for the key ``a" on the leader. What is the new status? What changes occurred and why (if any)?
 
 Ans:
 
+The values for log_len, last_applied, commit_idx, next_node_idx_server_127.0.0.1:6001, next_node_idx_server_127.0.0.1:6001, match_idx_server_127.0.0.1:6001, match_idx_server_127.0.0.1:6002 and leader_commit_idx went up from 2 to 3.
+
+The values for next_node_idx_server_127.0.0.1:6001 and next_node_idx_server_127.0.0.1:6002 on server 127.0.0.1:6000 went up from 3 to 4
+
+And the uptime increased by around 20.
+
+The Raft consensus algorithm ensures that put is replicated and committed across the nodes. The increase in last_applied and commit_idx indicates successful replication and commit of this change.
+
 3. Perform an Append request for the key ``a" on the leader. What is the new status? What changes occurred and why (if any)?
 
 Ans: 
 
+The values for log_len, last_applied, commit_idx, next_node_idx_server_127.0.0.1:6001, next_node_idx_server_127.0.0.1:6001, match_idx_server_127.0.0.1:6001, match_idx_server_127.0.0.1:6002 and leader_commit_idx went up from 3 to 4.
+
+The values for next_node_idx_server_127.0.0.1:6001 and next_node_idx_server_127.0.0.1:6002 on server 127.0.0.1:6000 went up from 4 to 5.
+
+And the uptime increased by around 15.
+
+The Raft consensus algorithm ensures that Append requests are replicated and committed across the nodes in the cluster to maintain consistency. The increase in last_applied and commit_idx indicates the successful replication and commitment of this change across the nodes, ensuring consistency within the cluster.
+
+
 4. Perform a Get request for the key ``a" on the leader. What is the new status? What change (if any) happened and why?
 
 Ans:
+Nothing has changed, except for the uptime slightly increasing by 15.
 
+The GET request simply retrieves the current value associated with the key a without making any modifications to the data store or the Raft log, thus keeping the status variables unchanged.
 
 
 # Task 3
