@@ -204,7 +204,7 @@ Ans:
 Ans:
 >Performing Get, Put, or Append requests might not guarantee the expected behavior or consistency due to the absence of a quorum. Here's why:
 >- Get Request: It might returned data, but it was outdated and incomplete due to the lack of consensus and the unavailability of the majority of nodes to fetch the most recent data
->- Put and Append Requests: These operations might appear to succeed (returning a 204 status code) but the changes are not be properly replicated and committed across the majority of nodes.
+>- Put and Append Requests: These operations might appear to succeed (returning a 204 status code) but the changes are not properly replicated and committed across the majority of nodes due to the absence of a leader.
 >- The value has_quorum = False means it's in a degraded state where operations might not be reliable or consistent. While the requests seem to have been accepted (returning successful status codes), the absence of a quorum implies potential inconsistencies or data loss once the system returns to a functional state.
 >- this is because there aren't other nodes in the system that can replicate the data because there isn't a majority that could confirm that the nodes have written the new entry and the leader can't notify the followers that the entry is commited.
 
